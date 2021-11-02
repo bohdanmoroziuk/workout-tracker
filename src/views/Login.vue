@@ -8,7 +8,7 @@
 
     <form class="p-8 flex flex-col bg-light-grey rounded-md shadow-lg">
       <h2 class="text-3xl text-at-light-green mb-4">
-        Register
+        Login
       </h2>
 
       <div class="flex flex-col mb-2">
@@ -37,19 +37,6 @@
         />
       </div>
 
-      <div class="flex flex-col mb-2">
-        <label class="mb-1 text-sm text-at-light-green" for="confirmPassword">
-          Confirm Password
-        </label>
-        <input
-          class="p-2 text-gray-500 focus:outline-none"
-          type="password"
-          id="confirmPassword"
-          required
-          v-model="confirmPassword"
-        />
-      </div>
-
       <button
         class="
           mt-6 py-2 px-6 rounded-sm self-start text-sm
@@ -59,11 +46,11 @@
         "
         type="submit"
       >
-        Register
+        Login
       </button>
 
-      <router-link class="text-sm mt-6 text-center" :to="{ name: 'Login' }">
-        Already have an account? <span class="text-at-light-green">Login</span>
+      <router-link class="text-sm mt-6 text-center" :to="{ name: 'Register' }">
+        Don't have an account? <span class="text-at-light-green">Register</span>
       </router-link>
     </form>
   </div>
@@ -73,17 +60,15 @@
 import { ref } from 'vue';
 
 export default {
-  name: 'Register',
+  name: 'Login',
   setup() {
     const email = ref('');
     const password = ref('');
-    const confirmPassword = ref('');
     const errorMessage = ref('');
 
     return {
       email,
       password,
-      confirmPassword,
       errorMessage,
     };
   },

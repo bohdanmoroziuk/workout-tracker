@@ -34,7 +34,7 @@ export default {
         label: 'Create',
       },
       {
-        to: { name: '' },
+        to: { name: 'Login' },
         label: 'Login',
       },
     ]);
