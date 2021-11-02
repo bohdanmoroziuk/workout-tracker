@@ -86,7 +86,7 @@ export default {
     const errorMessage = ref('');
 
     const showError = (message, duration) => {
-      errorMessage.value = message;
+      errorMessage.value = `Error: ${message}`;
 
       setTimeout(() => {
         errorMessage.value = '';
@@ -108,7 +108,7 @@ export default {
           showError(error.message, 3 * 1000);
         }
       } else {
-        showError('Error: Passwords do not match', 3 * 1000);
+        showError('Passwords do not match', 3 * 1000);
       }
     };
 
