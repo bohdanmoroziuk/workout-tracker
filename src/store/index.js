@@ -1,12 +1,16 @@
-import { createStore } from 'vuex';
+import { reactive } from 'vue';
 
-export default createStore({
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  },
+const state = reactive({
+  user: null,
 });
+
+const setUser = (payload) => {
+  state.user = payload?.user;
+};
+
+export default {
+  state,
+  methods: {
+    setUser,
+  },
+};
