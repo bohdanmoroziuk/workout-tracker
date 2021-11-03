@@ -6,14 +6,16 @@
         <h1 class="text-lg">Workout Tracker</h1>
       </div>
       <ul class="flex flex-1 justify-end gap-x-10">
-        <router-link
-          v-for="link of links"
-          :key="link.label"
-          :to="link.to"
-        >
-          {{ link.label }}
+        <router-link :to="{ name: 'Home' }">
+          Home
         </router-link>
-        <li class="cursor-pointer" @click="logout">
+        <router-link :to="{ name: '' }" v-if="user">
+          Create
+        </router-link>
+        <router-link :to="{ name: 'Login' }" v-if="!user">
+          Login
+        </router-link>
+        <li class="cursor-pointer" @click="logout" v-if="user">
           Logout
         </li>
       </ul>
@@ -22,29 +24,18 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-import supabase from '../supabase';
+
+import store from '@/store';
+import supabase from '@/supabase';
 
 export default {
   name: 'Navbar',
   setup() {
-    const links = ref([
-      {
-        to: { name: 'Home' },
-        label: 'Home',
-      },
-      {
-        to: { name: '' },
-        label: 'Create',
-      },
-      {
-        to: { name: 'Login' },
-        label: 'Login',
-      },
-    ]);
-
     const router = useRouter();
+
+    const user = computed(() => store.state.user);
 
     const logout = async () => {
       await supabase.auth.signOut();
@@ -52,7 +43,7 @@ export default {
     };
 
     return {
-      links,
+      user,
       logout,
     };
   },
