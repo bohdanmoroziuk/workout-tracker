@@ -13,6 +13,9 @@
         >
           {{ link.label }}
         </router-link>
+        <li class="cursor-pointer" @click="logout">
+          Logout
+        </li>
       </ul>
     </nav>
   </header>
@@ -20,6 +23,8 @@
 
 <script>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import supabase from '../supabase';
 
 export default {
   name: 'Navbar',
@@ -39,8 +44,16 @@ export default {
       },
     ]);
 
+    const router = useRouter();
+
+    const logout = async () => {
+      await supabase.auth.signOut();
+      router.push({ name: 'Login' }).catch(() => {});
+    };
+
     return {
       links,
+      logout,
     };
   },
 };
