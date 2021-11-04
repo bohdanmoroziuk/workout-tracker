@@ -9,7 +9,7 @@
         <router-link :to="{ name: 'Home' }">
           Home
         </router-link>
-        <router-link :to="{ name: '' }" v-if="user">
+        <router-link :to="{ name: 'CreateWorkout' }" v-if="user">
           Create
         </router-link>
         <router-link :to="{ name: 'Login' }" v-if="!user">
