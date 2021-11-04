@@ -107,6 +107,7 @@
               hover:bg-white hover:text-at-light-green
             "
             type="button"
+            @click="addExercise"
           >
             Add Exercise
           </button>
@@ -185,6 +186,7 @@
               hover:bg-white hover:text-at-light-green
             "
             type="button"
+            @click="addExercise"
           >
             Add Exercise
           </button>
@@ -207,16 +209,46 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+import { nanoid } from 'nanoid';
 
 export default {
   name: 'CreateWorkout',
   setup() {
     const name = ref('');
     const type = ref('');
-    const exercises = ref([{}]);
+    const exercises = ref([]);
     const errorMessage = ref('');
     const statusMessage = ref('');
+
+    const addExercise = () => {
+      if (type.value === 'strength') {
+        exercises.value.push({
+          id: nanoid(),
+          nam: '',
+          sets: '',
+          reps: '',
+          weight: '',
+        });
+      }
+
+      if (type.value === 'cardio') {
+        exercises.value.push({
+          id: nanoid(),
+          type: 'run',
+          distance: '',
+          duration: '',
+          pace: '',
+        });
+      }
+    };
+
+    const resetExercises = () => {
+      exercises.value = [];
+      addExercise();
+    };
+
+    watch(type, resetExercises);
 
     return {
       name,
@@ -224,6 +256,7 @@ export default {
       exercises,
       errorMessage,
       statusMessage,
+      addExercise,
     };
   },
 };
