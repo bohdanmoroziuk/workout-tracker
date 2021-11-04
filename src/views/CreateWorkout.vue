@@ -96,6 +96,7 @@
               class="h-4 w-auto absolute -left-5 cursor-pointer"
               src="@/assets/images/trash-light-green.png"
               alt="Delete"
+              @click="deleteExercise(exercise)"
             />
           </div>
 
@@ -175,6 +176,7 @@
               class="h-4 w-auto absolute -left-5 cursor-pointer"
               src="@/assets/images/trash-light-green.png"
               alt="Delete"
+              @click="deleteExercise(exercise)"
             />
           </div>
 
@@ -221,6 +223,14 @@ export default {
     const errorMessage = ref('');
     const statusMessage = ref('');
 
+    const showError = (message, duration) => {
+      errorMessage.value = `Error: ${message}`;
+
+      setTimeout(() => {
+        errorMessage.value = '';
+      }, duration);
+    };
+
     const addExercise = () => {
       if (type.value === 'strength') {
         exercises.value.push({
@@ -243,6 +253,14 @@ export default {
       }
     };
 
+    const deleteExercise = ({ id }) => {
+      if (exercises.value.length > 1) {
+        exercises.value = exercises.value.filter((exercise) => exercise.id !== id);
+      } else {
+        showError('Cannot remove, need to at least have one exercise', 3 * 1000);
+      }
+    };
+
     const resetExercises = () => {
       exercises.value = [];
       addExercise();
@@ -257,6 +275,7 @@ export default {
       errorMessage,
       statusMessage,
       addExercise,
+      deleteExercise,
     };
   },
 };
