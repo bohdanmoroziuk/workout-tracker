@@ -13,7 +13,10 @@
     </div>
 
     <div class="p-8 flex items-start bg-light-grey rounded-md shadow-lg">
-      <form class="flex flex-col gap-y-5 w-full">
+      <form
+        @submit.prevent="createWorkout"
+        class="flex flex-col gap-y-5 w-full"
+      >
         <h2 class="text-2xl text-at-light-green">Record Workout</h2>
 
         <div class="flex flex-col">
@@ -211,8 +214,10 @@
 </template>
 
 <script>
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { nanoid } from 'nanoid';
+
+import supabase from '../supabase';
 
 export default {
   name: 'CreateWorkout',
@@ -228,6 +233,14 @@ export default {
 
       setTimeout(() => {
         errorMessage.value = '';
+      }, duration);
+    };
+
+    const showStatus = (message, duration) => {
+      statusMessage.value = `Status: ${message}`;
+
+      setTimeout(() => {
+        statusMessage.value = '';
       }, duration);
     };
 
@@ -268,6 +281,33 @@ export default {
 
     watch(type, resetExercises);
 
+    const workout = computed(() => ({
+      name: name.value,
+      type: type.value,
+      exercises: exercises.value,
+    }));
+
+    const resetWorkout = () => {
+      name.value = '';
+      type.value = '';
+      exercises.value = [];
+    };
+
+    const createWorkout = async () => {
+      try {
+        const { error } = await supabase
+          .from('workouts')
+          .insert([workout.value]);
+
+        showStatus('Workout created', 3 * 1000);
+        resetWorkout();
+
+        if (error) throw error;
+      } catch (error) {
+        showError(error.message, 5 * 1000);
+      }
+    };
+
     return {
       name,
       type,
@@ -276,6 +316,7 @@ export default {
       statusMessage,
       addExercise,
       deleteExercise,
+      createWorkout,
     };
   },
 };
