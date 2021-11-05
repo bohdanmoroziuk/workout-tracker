@@ -319,8 +319,19 @@ export default {
       }
     };
 
-    const deleteWorkout = () => {
-      router.push({ name: 'Home' }).catch(() => {});
+    const deleteWorkout = async () => {
+      try {
+        const { error } = await supabase
+          .from('workouts')
+          .delete()
+          .eq('id', props.workoutId);
+
+        if (error) throw error;
+
+        router.push({ name: 'Home' }).catch(() => {});
+      } catch (error) {
+        showError(error.message);
+      }
     };
 
     watch(() => props.workoutId, getWorkout, { immediate: true });
