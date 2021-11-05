@@ -6,7 +6,7 @@
     >
       <router-link
         class="flex flex-col items-center bg-light-grey p-8 shadow-md"
-        :to="{ name: '' }"
+        :to="{ name: 'ViewWorkout', params: { workoutId: workout.id } }"
         v-for="workout of workouts"
         :key="workout.id"
       >
@@ -73,7 +73,6 @@ export default {
         if (error) throw error;
 
         workouts.value = data;
-        console.log(data);
       } catch (error) {
         console.error(error);
       } finally {
