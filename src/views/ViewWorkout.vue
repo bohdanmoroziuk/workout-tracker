@@ -146,6 +146,7 @@
               hover:bg-at-light-green hover:text-at-light-green
             "
             type="button"
+            @click="addExercise"
             v-if="isEditMode"
           >
             Add Exercise
@@ -231,6 +232,7 @@
               hover:bg-at-light-green hover:text-at-light-green
             "
             type="button"
+            @click="addExercise"
             v-if="isEditMode"
           >
             Add Exercise
@@ -257,6 +259,8 @@
 <script>
 import { ref, watch, computed } from 'vue';
 import { useRouter } from 'vue-router';
+
+import { nanoid } from 'nanoid';
 
 import supabase from '../supabase';
 import store from '../store';
@@ -334,6 +338,28 @@ export default {
       }
     };
 
+    const addExercise = () => {
+      if (workout.value.type === 'strength') {
+        workout.value.exercises.push({
+          id: nanoid(),
+          nam: '',
+          sets: '',
+          reps: '',
+          weight: '',
+        });
+      }
+
+      if (workout.value.type === 'cardio') {
+        workout.value.exercises.push({
+          id: nanoid(),
+          type: 'run',
+          distance: '',
+          duration: '',
+          pace: '',
+        });
+      }
+    };
+
     watch(() => props.workoutId, getWorkout, { immediate: true });
 
     return {
@@ -343,6 +369,7 @@ export default {
       isLoggedIn,
       errorMessage,
       statusMessage,
+      addExercise,
       deleteWorkout,
       toggleEditMode,
     };
