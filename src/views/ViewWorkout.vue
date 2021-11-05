@@ -134,6 +134,7 @@
               class="absolute h-4 w-auto -left-5 cursor-pointer"
               src="@/assets/images/trash-light-green.png"
               alt="Delete Exercise"
+              @click="deleteExercise(exercise)"
               v-if="isEditMode"
             />
           </div>
@@ -220,6 +221,7 @@
               class="absolute h-4 w-auto -left-5 cursor-pointer"
               src="@/assets/images/trash-light-green.png"
               alt="Delete Exercise"
+              @click="deleteExercise(exercise)"
               v-if="isEditMode"
             />
           </div>
@@ -360,6 +362,14 @@ export default {
       }
     };
 
+    const deleteExercise = ({ id }) => {
+      if (workout.value.exercises.length > 1) {
+        workout.value.exercises = workout.value.exercises.filter((exercise) => exercise.id !== id);
+      } else {
+        showError('Cannot remove, need to at least have one exercise', 3 * 1000);
+      }
+    };
+
     watch(() => props.workoutId, getWorkout, { immediate: true });
 
     return {
@@ -370,6 +380,7 @@ export default {
       errorMessage,
       statusMessage,
       addExercise,
+      deleteExercise,
       deleteWorkout,
       toggleEditMode,
     };
