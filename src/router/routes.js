@@ -12,6 +12,7 @@ export default [
     name: 'CreateWorkout',
     meta: {
       title: 'Create Workout',
+      private: true,
     },
     component: () => import('@/views/CreateWorkout.vue'),
   },
