@@ -12,7 +12,7 @@
       </p>
     </div>
 
-    <form v-if="isLoaded">
+    <form @submit.prevent="updateWorkout" v-if="isLoaded">
       <div class="flex flex-col items-center p-8 rounded-md shadow-md bg-light-grey relative">
         <div class="flex absolute left-2 top-2 gap-x-2" v-if="isLoggedIn">
           <div
@@ -298,13 +298,13 @@ export default {
       }, duration);
     };
 
-    // const showStatus = (message, duration) => {
-    //   statusMessage.value = `Status: ${message}`;
+    const showStatus = (message, duration) => {
+      statusMessage.value = `Status: ${message}`;
 
-    //   setTimeout(() => {
-    //     statusMessage.value = '';
-    //   }, duration);
-    // };
+      setTimeout(() => {
+        statusMessage.value = '';
+      }, duration);
+    };
 
     const getWorkout = async () => {
       try {
@@ -336,7 +336,7 @@ export default {
 
         router.push({ name: 'Home' }).catch(() => {});
       } catch (error) {
-        showError(error.message);
+        showError(error.message, 3 * 1000);
       }
     };
 
@@ -370,6 +370,25 @@ export default {
       }
     };
 
+    const updateWorkout = async () => {
+      try {
+        const { error } = await supabase
+          .from('workouts')
+          .update({
+            name: workout.value.name,
+            exercises: workout.value.exercises,
+          })
+          .eq('id', props.workoutId);
+
+        if (error) throw error;
+
+        showStatus('Workout Updated', 3 * 1000);
+        toggleEditMode();
+      } catch (error) {
+        showError(error.message, 3 * 1000);
+      }
+    };
+
     watch(() => props.workoutId, getWorkout, { immediate: true });
 
     return {
@@ -383,6 +402,7 @@ export default {
       deleteExercise,
       deleteWorkout,
       toggleEditMode,
+      updateWorkout,
     };
   },
 };
