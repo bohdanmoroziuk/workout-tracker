@@ -1,4 +1,24 @@
-# workout-tracker
+# Workout Tracker App
+
+> An application for tracking workouts with authentication using Vue.js 3 and its composition API together with Supabase. 
+
+## Preview
+
+### Register page
+
+<img src="./screenshots/register-page.png" alt="Register page" />
+
+### Login page
+
+<img src="./screenshots/login-page.png" alt="Login page" />
+
+### Home page
+
+<img src="./screenshots/home-page.png" alt="Home page" />
+
+### Exercise page
+
+<img src="./screenshots/exercise-page.png" alt="Exercise page" />
 
 ## Project setup
 ```
@@ -19,6 +39,3 @@ npm run build
 ```
 npm run lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
